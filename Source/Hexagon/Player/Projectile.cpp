@@ -29,7 +29,7 @@ AProjectile::AProjectile()
 	ProjectileMovement->ProjectileGravityScale = 1.0f;
 
 	// Die after 3 seconds.
-	InitialLifeSpan = 20.0f;
+	InitialLifeSpan = 5.0f;
 
 
 

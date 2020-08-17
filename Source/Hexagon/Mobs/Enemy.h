@@ -15,6 +15,7 @@ class HEXAGON_API AEnemy : public ACharacter, public IDamageable
 public:
 	// Sets default values for this character's properties
 	AEnemy();
+	float EnemyHealth = 50;
 
 protected:
 	// Called when the game starts or when spawned

@@ -19,6 +19,10 @@ void AEnemy::BeginPlay()
 
 void AEnemy::HitDamage(float amount)
 {
+	EnemyHealth -= amount;
+
+	if (EnemyHealth <= 0)
+		Destroy();
 }
 
 // Called every frame
