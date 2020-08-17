@@ -67,6 +67,11 @@ void AHexagonPlayerController::Shoot()
 	}
 }
 
+void AHexagonPlayerController::HitDamage(float amount)
+{
+
+}
+
 // Called every frame
 void AHexagonPlayerController::Tick(float DeltaTime)
 {

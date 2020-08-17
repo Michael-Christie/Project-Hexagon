@@ -16,6 +16,8 @@ class HEXAGON_API AProjectile : public AActor
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
 		class UProjectileMovementComponent* ProjectileMovement;
+
+	float InitialLifeSpan;
 public:	
 	// Sets default values for this actor's properties
 	AProjectile();
@@ -29,5 +31,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void SetUp(FVector direction);
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
 };
