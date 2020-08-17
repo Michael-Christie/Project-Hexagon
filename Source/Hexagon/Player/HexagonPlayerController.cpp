@@ -6,6 +6,8 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/InputSettings.h"
 #include "Components/CapsuleComponent.h"
+#include "Projectile.h"
+
 
 // Sets default values
 AHexagonPlayerController::AHexagonPlayerController()
@@ -19,6 +21,9 @@ AHexagonPlayerController::AHexagonPlayerController()
 	FirstPersonCameraComponent->SetupAttachment(GetCapsuleComponent());
 	FirstPersonCameraComponent->SetRelativeLocation(FVector(-39.56f, 1.75f, 64.f)); // Position the camera
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
+
+	ShootLocation = CreateDefaultSubobject<USceneComponent>(TEXT("Shoot Location"));
+	ShootLocation->SetupAttachment(GetCapsuleComponent());
 }
 
 // Called when the game starts or when spawned
@@ -46,6 +51,22 @@ void AHexagonPlayerController::MoveRight(float val)
 	}
 }
 
+void AHexagonPlayerController::Shoot()
+{
+	UWorld* world = GetWorld();
+	if (ensure(!world))return;
+
+	const FRotator spawnRotation = GetControlRotation();
+	const FVector spawnLocation = ShootLocation->GetComponentLocation();
+
+	AProjectile* p = world->SpawnActor<AProjectile>(ProjectileClass, spawnLocation, spawnRotation);
+
+	if (p) {
+		FVector LaunchDirection = spawnRotation.Vector();
+		p->SetUp(LaunchDirection);
+	}
+}
+
 // Called every frame
 void AHexagonPlayerController::Tick(float DeltaTime)
 {
@@ -65,13 +86,13 @@ void AHexagonPlayerController::SetupPlayerInputComponent(UInputComponent* Player
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
+	//Bind shoot events
+	PlayerInputComponent->BindAction("Shoot", IE_Pressed, this, &AHexagonPlayerController::Shoot);
+
 	// Bind movement events
 	PlayerInputComponent->BindAxis("MoveForward", this, &AHexagonPlayerController::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AHexagonPlayerController::MoveRight);
 
-	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
-	// "turn" handles devices that provide an absolute delta, such as a mouse.
-	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 }
