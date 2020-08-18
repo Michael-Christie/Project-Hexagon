@@ -44,4 +44,5 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class AProjectile> ProjectileClass;
 
+
 };

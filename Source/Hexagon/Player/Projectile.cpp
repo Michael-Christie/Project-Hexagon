@@ -21,15 +21,15 @@ AProjectile::AProjectile()
 
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
 	ProjectileMovement->SetUpdatedComponent(HitCollider);
-	ProjectileMovement->InitialSpeed = 3000.0f;
-	ProjectileMovement->MaxSpeed = 3000.0f;
+	ProjectileMovement->InitialSpeed = 4000.0f;
+	ProjectileMovement->MaxSpeed = 4000.0f;
 	ProjectileMovement->bRotationFollowsVelocity = true;
 	ProjectileMovement->bShouldBounce = true;
 	ProjectileMovement->Bounciness = 0.3f;
-	ProjectileMovement->ProjectileGravityScale = 1.0f;
+	ProjectileMovement->ProjectileGravityScale = 0.0f;
 
-	// Die after 3 seconds.
-	InitialLifeSpan = 5.0f;
+	// Die after 1 seconds.
+	InitialLifeSpan = 1.0f;
 
 
 
@@ -69,8 +69,10 @@ void AProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor,
 		if (damageInteface != nullptr)
 		{
 			damageInteface->HitDamage(50.0f);
-			Destroy();
 		}
 	}
+
+	if(OtherActor != this)
+		Destroy();
 }
 

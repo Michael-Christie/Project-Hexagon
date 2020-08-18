@@ -6,6 +6,7 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/InputSettings.h"
 #include "Components/CapsuleComponent.h"
+
 #include "Projectile.h"
 
 
@@ -23,13 +24,15 @@ AHexagonPlayerController::AHexagonPlayerController()
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
 
 	ShootLocation = CreateDefaultSubobject<USceneComponent>(TEXT("Shoot Location"));
-	ShootLocation->SetupAttachment(GetCapsuleComponent());
+	ShootLocation->SetupAttachment(FirstPersonCameraComponent);
 }
 
 // Called when the game starts or when spawned
 void AHexagonPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+
+	
 	
 }
 
@@ -59,7 +62,12 @@ void AHexagonPlayerController::Shoot()
 	const FRotator spawnRotation = GetControlRotation();
 	const FVector spawnLocation = ShootLocation->GetComponentLocation();
 
-	AProjectile* p = world->SpawnActor<AProjectile>(ProjectileClass, spawnLocation, spawnRotation);
+	//Set Spawn Collision Handling Override
+	FActorSpawnParameters ActorSpawnParams;
+	ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+	ActorSpawnParams.Instigator = this;
+
+	AProjectile* p = world->SpawnActor<AProjectile>(ProjectileClass, spawnLocation, spawnRotation, ActorSpawnParams);
 
 	if (p) {
 		FVector LaunchDirection = spawnRotation.Vector();
