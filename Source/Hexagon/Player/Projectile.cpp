@@ -4,6 +4,7 @@
 #include "Projectile.h"
 #include "Engine/Engine.h"
 #include "Components/SphereComponent.h"
+#include "Components/StaticMeshComponent.h"
 #include "../Interfaces/Damageable.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 
@@ -11,7 +12,7 @@
 AProjectile::AProjectile()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 
 	HitCollider = CreateDefaultSubobject<USphereComponent>(TEXT("Hit Area"));
 	HitCollider->BodyInstance.SetCollisionProfileName(TEXT("Projectile"));
@@ -27,6 +28,9 @@ AProjectile::AProjectile()
 	ProjectileMovement->bShouldBounce = true;
 	ProjectileMovement->Bounciness = 0.3f;
 	ProjectileMovement->ProjectileGravityScale = 0.0f;
+
+	ProjectileMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Projectile Mesh"));
+	ProjectileMesh->SetupAttachment(HitCollider);
 
 	// Die after 1 seconds.
 	InitialLifeSpan = 1.0f;
@@ -46,6 +50,8 @@ void AProjectile::BeginPlay()
 void AProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	ProjectileMesh->AddLocalRotation(FRotator(0,0,15));
 
 }
 

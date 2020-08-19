@@ -17,6 +17,9 @@ class HEXAGON_API AProjectile : public AActor
 	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
 		class UProjectileMovementComponent* ProjectileMovement;
 
+	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
+		class UStaticMeshComponent* ProjectileMesh;
+
 	float InitialLifeSpan;
 public:	
 	// Sets default values for this actor's properties

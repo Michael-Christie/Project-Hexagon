@@ -22,11 +22,21 @@ protected:
 	virtual void BeginPlay() override;
 	void HitDamage(float amount) override;
 
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent * overlappingComponent, AActor * otherActor, UPrimitiveComponent * otherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult & sweepResult);
+
+
+	UFUNCTION()
+		void OnPawnSeen(APawn* seenPawn);
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UPROPERTY(EditAnywhere, Category = AI)
+	class UPawnSensingComponent* PawnSense;
 
 };
