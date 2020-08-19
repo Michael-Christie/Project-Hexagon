@@ -57,10 +57,10 @@ void AHexagonPlayerController::MoveRight(float val)
 void AHexagonPlayerController::Shoot()
 {
 	UWorld* world = GetWorld();
-	if (ensure(!world))return;
+	if (world == nullptr)return;
 
-	const FRotator spawnRotation = GetControlRotation();
-	const FVector spawnLocation = ShootLocation->GetComponentLocation();
+	FRotator spawnRotation = GetControlRotation();
+	FVector spawnLocation = ShootLocation->GetComponentLocation();
 
 	//Set Spawn Collision Handling Override
 	FActorSpawnParameters ActorSpawnParams;
