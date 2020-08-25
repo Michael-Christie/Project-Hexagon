@@ -36,19 +36,23 @@ void ALevelEnd::Tick(float DeltaTime)
 
 void ALevelEnd::LevelOver(AActor * otherActor)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Colliding"));
-
 	AHexagonPlayerController* player = Cast<AHexagonPlayerController>(otherActor);
 
 	if (player != nullptr) 
 	{
+		//Add the UI Done with BP;
+
 		//Level is over
-
 		//stop player movement
-		player->DisableInput(Cast<APlayerController>(player));
+		APlayerController*  PC = GetWorld()->GetFirstPlayerController();
 
-		//Add the UI
-
+		if (PC != nullptr) {
+			FInputModeUIOnly InputMode;
+			InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+			
+			PC->SetInputMode(InputMode);
+			PC->bShowMouseCursor = true;
+		}
 	}
 }
 
