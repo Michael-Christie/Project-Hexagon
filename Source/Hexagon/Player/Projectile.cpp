@@ -6,12 +6,14 @@
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "../Interfaces/Damageable.h"
+#include "Kismet/GameplayStatics.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "HexagonPlayerController.h"
 
 // Sets default values
 AProjectile::AProjectile()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	HitCollider = CreateDefaultSubobject<USphereComponent>(TEXT("Hit Area"));
@@ -51,14 +53,15 @@ void AProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	ProjectileMesh->AddLocalRotation(FRotator(0,0,15));
+	ProjectileMesh->AddLocalRotation(FRotator(7.5f, 0, 0));
 
 }
 
-void AProjectile::SetUp(FVector direction)
+void AProjectile::SetUp(FVector direction, AHexagonPlayerController * player)
 {
 	//adds a velocity to the direction its facing
 	ProjectileMovement->Velocity = direction * ProjectileMovement->InitialSpeed;
+	playerContoller = player;
 }
 
 void AProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent, FVector NormalImpulse, const FHitResult & Hit)
@@ -75,10 +78,13 @@ void AProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor,
 		if (damageInteface != nullptr)
 		{
 			damageInteface->HitDamage(50.0f);
+			
+			if(playerContoller != nullptr)
+				playerContoller->EnemyHitCall();
 		}
 	}
 
-	if(OtherActor != this)
+	if (OtherActor != this)
 		Destroy();
 }
 

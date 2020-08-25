@@ -6,6 +6,7 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/InputSettings.h"
 #include "Components/CapsuleComponent.h"
+#include "PlayerCameraShake.h"
 
 #include "Projectile.h"
 
@@ -71,7 +72,7 @@ void AHexagonPlayerController::Shoot()
 
 	if (p) {
 		FVector LaunchDirection = spawnRotation.Vector();
-		p->SetUp(LaunchDirection);
+		p->SetUp(LaunchDirection, this);
 	}
 }
 
@@ -108,5 +109,17 @@ void AHexagonPlayerController::SetupPlayerInputComponent(UInputComponent* Player
 
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
+}
+
+void AHexagonPlayerController::EnemyHitCall()
+{
+	UWorld* world = GetWorld();
+
+	if (MyShake != NULL && world != nullptr)
+	{
+		APlayerController* APC = world->GetFirstPlayerController();
+		if (APC != nullptr)
+			APC->PlayerCameraManager->PlayCameraShake(MyShake, 1.0f);
+	}
 }
 

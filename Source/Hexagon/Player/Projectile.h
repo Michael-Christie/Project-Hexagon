@@ -33,7 +33,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void SetUp(FVector direction);
+	void SetUp(FVector direction, class AHexagonPlayerController * player);
+	class AHexagonPlayerController* playerContoller;
 
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);

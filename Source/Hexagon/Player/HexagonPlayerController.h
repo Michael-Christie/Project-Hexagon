@@ -44,5 +44,11 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class AProjectile> ProjectileClass;
 
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<class UPlayerCameraShake> MyShake;
+
+	UFUNCTION()
+	void EnemyHitCall();
+
 
 };
