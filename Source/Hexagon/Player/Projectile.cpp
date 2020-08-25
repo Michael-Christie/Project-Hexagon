@@ -9,6 +9,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "HexagonPlayerController.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 // Sets default values
 AProjectile::AProjectile()
@@ -36,9 +37,6 @@ AProjectile::AProjectile()
 
 	// Die after 1 seconds.
 	InitialLifeSpan = 1.0f;
-
-
-
 }
 
 // Called when the game starts or when spawned
@@ -81,6 +79,9 @@ void AProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor,
 			
 			if(playerContoller != nullptr)
 				playerContoller->EnemyHitCall();
+
+			if(HitParticle != nullptr)
+				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitParticle, GetTransform(), true);
 		}
 	}
 
