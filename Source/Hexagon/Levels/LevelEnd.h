@@ -29,4 +29,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void LevelOver(AActor * otherActor);
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Next Level")
+		FString NextLevelName;
+
 };
