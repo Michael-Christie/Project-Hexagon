@@ -78,7 +78,10 @@ void AHexagonPlayerController::Shoot()
 
 void AHexagonPlayerController::HitDamage(float amount)
 {
+	PlayerHealth -= amount;
 
+	if (PlayerHealth <= 0)
+		Destroy();
 }
 
 // Called every frame

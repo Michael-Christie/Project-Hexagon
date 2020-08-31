@@ -5,34 +5,30 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "../Interfaces/Damageable.h"
-#include "HexagonPlayerController.generated.h"
+#include "ShootingEnemy.generated.h"
 
 UCLASS()
-class HEXAGON_API AHexagonPlayerController : public ACharacter, public IDamageable
+class HEXAGON_API AShootingEnemy : public ACharacter, public IDamageable
 {
 	GENERATED_BODY()
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* FirstPersonCameraComponent;
-
-	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
-		class USceneComponent* ShootLocation;
-
 public:
 	// Sets default values for this character's properties
-	AHexagonPlayerController();
+	AShootingEnemy();
+	float EnemyHealth = 50;
+	bool canShoot = true;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	void MoveForward(float val);
-
-	void MoveRight(float val);
-
-	void Shoot();
-
 	void HitDamage(float amount) override;
+
+	UFUNCTION()
+		void OnOverlapBegin(UPrimitiveComponent * overlappingComponent, AActor * otherActor, UPrimitiveComponent * otherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult & sweepResult);
+
+
+	UFUNCTION()
+		void OnPawnSeen(APawn* seenPawn);
 
 public:
 	// Called every frame
@@ -41,16 +37,10 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UPROPERTY(EditAnywhere, Category = AI)
+		class UPawnSensingComponent* PawnSense;
+
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class AProjectile> ProjectileClass;
-
-	UPROPERTY(EditAnywhere)
-		TSubclassOf<class UPlayerCameraShake> MyShake;
-
-	UFUNCTION()
-	void EnemyHitCall();
-
-	float PlayerHealth = 100;
-
 
 };

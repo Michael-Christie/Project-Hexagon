@@ -34,16 +34,12 @@ AProjectile::AProjectile()
 
 	ProjectileMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Projectile Mesh"));
 	ProjectileMesh->SetupAttachment(HitCollider);
-
-	// Die after 1 seconds.
-	InitialLifeSpan = 1.0f;
 }
 
 // Called when the game starts or when spawned
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	SetLifeSpan(InitialLifeSpan);
 }
 
 // Called every frame
