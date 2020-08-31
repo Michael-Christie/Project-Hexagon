@@ -57,16 +57,6 @@ void AShootingEnemy::OnPawnSeen(APawn * seenPawn)
 {
 	if (seenPawn == nullptr)
 		return;
-	////Find the direction to the seen pawn
-	//FVector direction = seenPawn->GetActorLocation() - GetActorLocation();
-	//direction.Normalize();
-
-	//FRotator lookAt = FRotationMatrix::MakeFromX(direction).Rotator();
-	//lookAt.Pitch = 0;
-	//lookAt.Roll = 0;
-
-	//SetActorRotation(lookAt);
-
 	//Find the AI controller
 	AEnemyController* EController = Cast<AEnemyController>(GetController());
 
@@ -97,6 +87,8 @@ void AShootingEnemy::OnPawnSeen(APawn * seenPawn)
 			FVector LaunchDirection = spawnRotation.Vector();
 			p->SetUp(LaunchDirection, nullptr);
 		}
+
+		canShoot = false;
 	}
 }
 
