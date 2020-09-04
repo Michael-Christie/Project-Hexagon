@@ -14,7 +14,7 @@ void UTimerFunction::Timer(float Delta)
 	if (timeRunning)
 	{
 		time += Delta;
-		TimerLable->SetText(FText::FromString(FString::SanitizeFloat(time)));
+		TimerLable->SetText(FText::FromString(FString::SanitizeFloat(time,2)));
 	}
 }
 

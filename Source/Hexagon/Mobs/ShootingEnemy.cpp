@@ -8,6 +8,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "DrawDebugHelpers.h"
 #include "../EnemyController.h"
+#include "Engine.h"
 
 #include "../Player/Projectile.h"
 
@@ -89,7 +90,15 @@ void AShootingEnemy::OnPawnSeen(APawn * seenPawn)
 		}
 
 		canShoot = false;
+
+		GetWorldTimerManager().ClearTimer(TimerHandle_ResetShooting);
+		GetWorldTimerManager().SetTimer(TimerHandle_ResetShooting, this, &AShootingEnemy::ResetShooting, .5f, false);
 	}
+}
+
+void AShootingEnemy::ResetShooting()
+{
+	canShoot = true;
 }
 
 // Called every frame

@@ -30,6 +30,10 @@ protected:
 	UFUNCTION()
 		void OnPawnSeen(APawn* seenPawn);
 
+	FTimerHandle TimerHandle_ResetShooting;
+
+	void ResetShooting();
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
