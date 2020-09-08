@@ -11,12 +11,14 @@ void UTimerFunction::EndTime()
 
 void UTimerFunction::Timer(float Delta)
 {
-	//if (timeRunning)
-	//{
-	//	time += Delta;
-	//	int seconds = FMath::RoundToInt((time * 100));
-	//	float fSeconds = seconds / 100.0f;
-	//}
+	if (timeRunning)
+	{
+		time += Delta;
+		int seconds = FMath::RoundToInt((time * 100));
+		float fSeconds = seconds / 100.0f;
+
+		//TimerLable->SetText(FText::FromString(FString::SanitizeFloat(fSeconds,2)));
+	}
 }
 
 void UTimerFunction::StartTime()

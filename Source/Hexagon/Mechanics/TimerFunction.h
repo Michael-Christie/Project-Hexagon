@@ -14,10 +14,10 @@ class HEXAGON_API UTimerFunction : public UUserWidget
 {
 	GENERATED_BODY()
 private:
-	float time = 0;
+	bool timeRunning = false;
 public:
-	UPROPERTY(BlueprintReadOnly)
-		bool timeRunning = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float time = 0;
 
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* TimerLable;
